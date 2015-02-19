@@ -5,7 +5,7 @@ Members:
 
 Delan Diaz (dcdiaz@ucsc.edu)
 
-Tyler Marshik (tmarshik@ucsc.edu)
+Sonny Singh (@ucsc.edu)
 
 Rashad Keyad (rkeyad@ucsc.edu)
 
