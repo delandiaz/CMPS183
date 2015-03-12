@@ -1,0 +1,41 @@
+{{extend 'layout.html'}}
+    <div class="background_image">         </div>
+    <div class="contain2" id="border_stuff">
+        <h3>
+            Current Happy Hours Nearby:
+        </h3>
+        {{if len(posts) > 0:}}
+
+        <ul>
+            {{for p in posts:}}
+            <li>
+               {{=A(p.name, _href=URL('default', 'view', args=[p.id]))}} {{=T(p.hours)}}
+            </li>
+            {{pass}}
+        </ul>
+        {{else:}}
+            There are no posts.
+           {{pass}}
+     </div>
+        <hr>
+      <div class="left_block" id="border_stuff">
+          Restaurant search bar goes here.<br>
+          {{if len(posts) > 0:}}
+
+        <ul>
+            {{for p in posts:}}
+            <li>
+               {{=A(p.name, _href=URL('default', 'view', args=[p.id]))}} {{=T(p.hours)}}
+            </li>
+            {{pass}}
+        </ul>
+        {{else:}}
+            There are no posts.
+           {{pass}}
+          </div>
+      <div class="right_block" id="border_stuff">
+          Test code for this column. <br>
+          Not sure what to place here...<br>
+          OpenTable uses specific id catching with widgets...<br>
+          I hope we find something cool for this.
+      </div>
