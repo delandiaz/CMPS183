@@ -1,0 +1,9 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+{{extend 'layout.html'}}
+
+<h1>Edit Restaurant</h1>
+
+{{=form}}
+
+{{=A('Home Page', _class='btn', _href=URL('default', 'index'))}}
+{{=A('Back', _class='btn', _href=URL('default', 'view', args=[request.args(0)]))}}

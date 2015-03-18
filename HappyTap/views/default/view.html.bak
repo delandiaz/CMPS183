@@ -1,0 +1,97 @@
+{{extend 'layout.html'}}
+
+<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script src="{{=URL('static','js/gmaps.js')}}"></script>
+
+<!-- STYLE FOR THE RESTAURANT INFORMATION               -->
+
+<style>
+    #basic_info {
+        width:28%;
+        float:left;
+        font-size: 1.2em;
+        font-weight: 300;
+        text-align: right;
+        margin-top: 30px;
+        padding-left: 2px;
+        padding-right: 2px;
+        background-color: #DCDCDC; 
+        border: 2px solid #868685; 
+        border-radius: 5px
+    }
+</style>
+
+<!-- THIS JS SCRIPT IS TO RETRIEVE RESTAURANT LOCATION
+     AND TO DISPLAY IT               -->
+
+<script>
+$(document).ready(function(){
+  map = new GMaps({
+    div: '#map',
+    lat: {{=latitude}},
+    lng: {{=longitude}},
+    panControl : false,
+  });
+
+   map.addMarker({
+    lat: {{=latitude}},
+    lng: {{=longitude}},
+    title: 'Here!',
+    infoWindow: {
+                 content: '<b>{{=restaurant_name}}</b><br/>{{=restaurant_address}}<br/>{{=restaurant_city}}, {{=restaurant_state}} {{=restaurant_zip}}'
+    }
+  });
+});
+</script>
+
+<!-- HEADER WITH RESTAURANT NAME           -->
+<h1 style="background-color: #DCDCDC;">
+    {{=restaurant_name}}
+</h1>
+
+<!-- RESTAURANT INFORMATION GOES HERE             -->
+<div id="basic_info">
+    <hr style="background-color: #868685; height: 2px; border: none;"/>
+<div style="float: left;background-color: #DCDCDC;">Address:</div>
+    {{=restaurant_address}}<br/>
+    {{=restaurant_city}}, 
+    {{=restaurant_state}} 
+    {{=restaurant_zip}}<br/><br/><hr style="background-color: #868685; height: 2px; border: none;"/>
+        <div style="float: left;background-color: #DCDCDC;">
+            Happy Hours: 
+            <br/>Monday {{=MST}} - {{=MET}}
+            <br/>Tuesday  {{=TUST}} - {{=TUET}}
+            <br/>Wednesday {{=WST}} - {{=WET}}
+            <br/>Thursday {{=THST}} - {{=THET}}
+            <br/>Friday {{=FST}} - {{=FET}}
+            <br/>Saturday {{=SAST}} - {{=SAET}}
+            <br/>Sunday {{=SUST}} - {{=SUET}}
+    </div>
+    Specials:<br/>
+    {{=MSPEC}}<br/>
+    {{=TUSPEC}}<br/>
+    {{=WSPEC}}<br/>
+    {{=THSPEC}}<br/>
+    {{=FSPEC}}<br/>
+    {{=SASPEC}}<br/>
+    {{=SUSPEC}}<br/><br/><br/><hr style="background-color: #868685; height: 2px; border: none;"/>
+    <div style="float: left;background-color: #DCDCDC;">Phone: </div>
+    {{=restaurant_phone}}<br/><br/><hr style="background-color: #868685; height: 2px; border: none;"/>
+
+<p>
+    {{=A('Home Page', _class='btn', _href=URL('default', 'index'))}}
+    {{=A('Edit', _class='btn', _href=URL('default', 'edit', args=[restaurant_id]))}}
+    {{if request.vars.edit_happy_hours != 'y':
+        =A(button_text, _class='btn', _href=URL('default', 'add_happy_hours', args=[restaurant_id]))
+    }}
+    {{if request.vars.edit_happy_hours == 'y':
+        =A('Back', _class='btn', _href=URL('default', 'view', args=[restaurant_id]))
+    }}
+    {{pass}}
+    {{pass}}
+</p>
+</div>
+<div id="map" style="height: 380px; width: 70%; float: right; margin-top: 30px;"></div>
+
+{{pass}}
+<br />

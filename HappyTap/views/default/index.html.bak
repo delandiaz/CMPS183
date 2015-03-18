@@ -1,0 +1,151 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+{{extend 'layout.html'}}
+<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script src="{{=URL('static','js/gmaps.js')}}"></script>
+<script src="{{=URL('static','js/jquery.js')}}"></script>
+
+<!-- THIS CSS IS CUSTOM FOR THE DIFFERENT ITEMS IN THE MAIN PAGE    -->
+
+<style type="text/css">
+#top_part{
+    width: 100%;
+    height: 350px;
+    color: gold;
+    font-size: 20px;
+}
+#upper_inner{
+    height: 20%;
+}
+#lower_inner{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    vertical-align: center;
+    background-color: rgba(150,150,150,0.6);
+    height: 65%;
+    opacity: 1;
+    filter: alpha(opacity=0);
+}
+    
+#lower_content {
+    height: 535px;
+    background-color: #DCDCDC;
+    
+}
+
+#left_side{
+    float: left;
+    height: 310px;
+    width: 60%;
+    margin: 5px;
+    font-size: 16px;
+    color: #888888;
+}
+
+#map{
+    width: 38%;
+    height: 320px;
+}
+
+</style>
+
+<!-- THIS JS SCRIPT IS TO RETRIEVE USER LOCATION AND
+     TO DETERMINE NEARBY LOCATIONS               -->
+
+<script>
+$(document).ready(function(){
+    GMaps.geolocate({
+     success: function(position){
+     //alert("made it into func");
+         if ("{{=position_received}}" == "n") {
+              window.location.assign(window.location.href + '/default/index?user_latitude=' + position.coords.latitude + '&user_longitude=' + position.coords.longitude);
+         }
+    },
+    error: function(error){
+      alert('Geolocation failed: '+error.message);
+    },
+    not_supported: function(){
+      alert("Your browser does not support geolocation");
+    }
+  });
+});
+</script>
+
+<!-- THIS JS SCRIPT IS TO RETRIEVE USER LOCATION AND
+     TO MAP USER LOCATION               -->
+
+<script>
+ var map;
+$(document).ready(function(){
+  var map = new GMaps({
+    el: '#map',
+      lat: {{=user_latitude}},
+      lng: {{=user_longitude}},
+      zoom: 12
+  });
+
+  GMaps.geolocate({
+    success: function(position){
+      map.setCenter({{=user_latitude}}, {{=user_longitude}});
+
+      map.addMarker({
+        lat: {{=user_latitude}},
+        lng: {{=user_longitude}},
+        title: 'You are here.',
+        infoWindow: {
+          content: '<p>You are here!</p>'
+        }
+      });
+    },
+    error: function(error){
+      alert('Geolocation failed: '+error.message);
+    },
+    not_supported: function(){
+      alert("Your browser does not support geolocation");
+    }
+  });
+});
+</script>
+
+
+<!-- THIS IS WHERE THE TOP AREA OF NEARBY HAPPY HOURS IS
+     CONTAINED IN INDEX               -->
+{{backimage = URL('static', 'images/ph.png')}}
+<div id="top_part" style="background-image: url('{{=backimage}}');">
+    <div id="upper_inner"></div>
+    <div id="lower_inner">
+        <h2 style="color: darkblue;">
+            Current Nearby Restaurants:
+        </h2>
+        {{if len(posts) > 0:}}
+        <ul>
+            {{for p in posts:}}
+                <li>
+                    {{=A(p.name, _href=URL('default', 'view', args=[p.id]), _style='color: white')}}
+                    {{if p.has_happy_hours:}}
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Currently has happy hours**
+                    {{pass}}
+                </li>
+            {{pass}}
+        </ul>
+           {{else:}}
+                There are no posts.
+            {{pass}}
+           <p>
+                <!--  {{=A('Add Restaurant', _class='btn', _href=URL('default', 'create'))}}  -->
+           </p>
+    </div>
+</div>
+<br />
+<hr style="background-color: #868685; height: 2px; border: none;" />
+<br/>
+<!-- LOWER SECTION CONTAINING SEARCH FORM AND MAP     -->
+<div id="lower_content">
+    
+    <div id="left_side">
+        {{=form}}
+    <br/>
+        </div>
+        <div id="map"></div>
+</div>
