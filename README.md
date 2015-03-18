@@ -5,8 +5,8 @@ Members:
 
 Delan Diaz (dcdiaz@ucsc.edu)
 
-Sonny Singh (@ucsc.edu)
+Tanpreet Gambhir (tgambhir@ucsc.edu)
 
-Rashad Keyad (rkeyad@ucsc.edu)
+Rashad Kayed (rkayed@ucsc.edu)
 
 Kyle Novelli (knovelli@ucsc.edu)
